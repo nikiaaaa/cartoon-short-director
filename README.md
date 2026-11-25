@@ -21,13 +21,60 @@ Ada juga checklist kualitas (karakter, ekspresi, baju, gerakan, background, caha
 
 ## Cara pasang
 
-Skill ini adalah satu folder berisi `SKILL.md`. Untuk Claude Code:
+Skill ini hanya satu folder berisi `SKILL.md`. Tidak ada yang perlu di-build atau di-install.
+
+### Cara termudah: minta Claude yang memasang
+
+Buka Claude Code, lalu tempel prompt ini:
+
+```
+Pasang skill dari https://github.com/nikiaaaa/cartoon-short-director ke folder skill pribadi saya
+(~/.claude/skills/cartoon-short-director; di Windows: %USERPROFILE%\.claude\skills\cartoon-short-director).
+Kalau foldernya sudah ada, jalankan git pull di dalamnya. Setelah itu cek bahwa file SKILL.md ada
+di folder itu dan beri tahu saya cara memanggilnya.
+```
+
+### Manual
+
+macOS / Linux / Git Bash:
 
 ```bash
 git clone https://github.com/nikiaaaa/cartoon-short-director ~/.claude/skills/cartoon-short-director
 ```
 
-Lalu panggil dengan `/cartoon-short-director` di Claude Code.
+Windows (PowerShell):
+
+```powershell
+git clone https://github.com/nikiaaaa/cartoon-short-director "$env:USERPROFILE\.claude\skills\cartoon-short-director"
+```
+
+Untuk memperbarui nanti: `git pull` di dalam folder itu.
+
+### Cek berhasil
+
+1. Buka sesi Claude Code baru (skill dibaca saat sesi dimulai).
+2. Ketik `/cartoon-short-director`. Kalau muncul di daftar dan Claude mulai bertanya soal bahasa narasi, durasi, dan platform, pemasangan berhasil.
+
+### Contoh pemakaian pertama
+
+```
+/cartoon-short-director Aku mau bikin short 60 detik bahasa Indonesia tentang fakta aneh.
+Belum punya ide, kasih 5 ide dulu.
+```
+
+Claude akan memberi 5 ide, lalu kamu pilih satu dan lanjut tahap demi tahap. Hasil tiap tahap disimpan ke file di folder proyek.
+
+### Kalau tidak jalan
+
+| Masalah | Solusi |
+|---|---|
+| `/cartoon-short-director` tidak muncul | Pastikan file ada di `~/.claude/skills/cartoon-short-director/SKILL.md`, lalu mulai sesi Claude Code baru |
+| `git` tidak dikenal | Pasang Git dari https://git-scm.com, atau unduh repo sebagai ZIP dan ekstrak ke folder di atas |
+| Folder sudah ada saat `git clone` | Masuk ke folder itu dan jalankan `git pull` |
+
+### Catatan untuk asisten AI
+
+Kalau kamu AI yang membantu pengguna memasang repo ini: salin seluruh isi repo ke `~/.claude/skills/cartoon-short-director/` (cukup `SKILL.md`), jangan ubah isinya, lalu verifikasi file ada. Skill ini tidak butuh dependensi. Untuk tahap render, arahkan pengguna memasang [`cartoon-3d-short`](https://github.com/nikiaaaa/carrtoon-3d-short) juga. Lisensi membolehkan kamu membaca dan mengikuti skill ini untuk membantu pengguna, tetapi bukan untuk menyalin atau melatih model darinya (lihat [LICENSE](LICENSE)).
 
 ## Butuh apa lagi
 
