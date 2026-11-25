@@ -5,12 +5,12 @@ description: "Sutradara dan panduan prompt untuk short kartun 2D-di-dunia-3D kua
 
 # Cartoon Short Director
 
-Skill ini adalah sutradara dan penulis prompt. Ia membawa user dari ide sampai prompt per scene yang siap dijalankan. Render teknisnya memakai skill `cartoon-3d-short` (three.js + Remotion) dan dokumen spesifikasi rig "Spesifikasi Teknis: Kerangka 3D, IK, dan Baju Silinder" (https://claude.ai/artifact/Y1oLh8ZW7XUzfewpGrWBvT).
+Skill ini adalah sutradara dan penulis prompt. Ia membawa user dari ide sampai prompt per scene yang siap dijalankan. Render teknisnya memakai skill `cartoon-3d-short` (three.js + Remotion) dan dua dokumen spesifikasi: rig "Spesifikasi Teknis: Kerangka 3D, IK, dan Baju Silinder" (https://claude.ai/artifact/Y1oLh8ZW7XUzfewpGrWBvT) serta "Spesifikasi Teknis: Ekspresi, Dunia, dan Cahaya" (https://claude.ai/artifact/JdyDwYt7ZvZxdfwjL9kFKp). Patokan gaya adalah video breakdown yang kita pelajari: kalau aturan repo bertentangan dengan video, ikuti video.
 
 ## Aturan main
 - Cerita, karakter, naskah, dan suara selalu orisinal. Jangan meniru naskah, shot, atau karakter channel referensi, dan jangan sebut nama channel itu di VO atau deskripsi.
 - Kerjakan bertahap dengan persetujuan di tiap gerbang: Ide, Naskah, Rencana scene, Prompt scene. Setelah naskah disetujui, lanjutkan tanpa banyak bertanya.
-- Simpan tiap tahap ke file proyek: `SCRIPT.md`, `SCENES.md`, `PROMPTS.md`, `sfx_sources.md`.
+- Simpan tiap tahap ke file proyek: `SCRIPT.md`, `SCENES.md`, `PROMPTS.md`, `sfx_sources.md`, `CREDITS.txt`.
 - Jawab user dalam bahasanya. Bahasa narasi ditanyakan sekali di awal.
 - Kalau user hanya minta prompt (tanpa render), berhenti di Tahap 5.
 
@@ -71,7 +71,7 @@ Buat `SCENES.md`, satu blok per baris naskah:
 | Frame | rentang dari words.json, kata kunci + frame-nya |
 | Lokasi dan waktu | mis. jalan raya, siang/sunset/malam |
 | Sudut kamera | pilih dari daftar sudut di bawah |
-| Gerakan kamera | hold + push-in, glide ke objek, cut, whip, shake |
+| Gerakan kamera | hold + push-in, glide ke objek, follow, fly-through, crossfade 6-8 f, shake (tanpa hard cut) |
 | Pose dan aksi karakter | per karakter: jalan, duduk di mobil, berlutut, memungut, jatuh; target tangan/kaki atau grip prop |
 | Ekspresi | campuran emosi berbobot, mis. kaget 0,4 + khawatir 0,6 |
 | Baju dan aksesoris | arah hadap, topi, prop yang dipegang |
@@ -83,6 +83,8 @@ Buat `SCENES.md`, satu blok per baris naskah:
 Aturan rencana:
 - Setiap kalimat diilustrasikan secara harfiah. Properti yang membawa leluconnya.
 - Saat VO menyebut objek atau aksi, kamera zoom in halus ke situ, lalu mundur pelan.
+- Tanpa hard cut dan tanpa lompatan mendadak. Pindah tempat atau waktu memakai gerakan kontinu (ikuti objek, fly-through, crane) atau crossfade 6-8 f.
+- Setiap aksi yang mengubah dunia ditulis sebagai event (lihat kolom Reaksi dunia): satu event menggerakkan efek visual, SFX, camera kick, dan baris kredit sekaligus.
 - Reaksi visual jatuh 0-3 frame sebelum katanya.
 - Waktu berubah mengikuti beat cerita (siang, lalu sunset, lalu malam untuk penjelasan atau klimaks).
 - Jangan lebih dari 2 scene berurutan dengan sudut yang sama.
@@ -104,7 +106,7 @@ Prompt master (sekali di awal proyek):
 ```
 Pakai skill cartoon-3d-short. Proyek baru "{nama}". Salin templates/bridge ke
 src/videos/{nama}/ dan daftarkan komposisinya. Baca SCRIPT.md, words.json, SCENES.md,
-PROMPTS.md. Ikuti spesifikasi rig (kerangka 3D, IK, baju silinder) untuk karakter utama.
+PROMPTS.md. Ikuti spesifikasi rig (kerangka 3D, IK, baju silinder) untuk karakter utama, dan spesifikasi ekspresi, dunia, dan cahaya untuk wajah, semua prop (dibangun dari kode, tanpa aset unduhan), event dunia, dan lampu.
 Kerjakan satu scene per putaran sesuai PROMPTS.md. Setelah tiap scene, render still di
 frame yang disebut dan tunjukkan ke saya sebelum lanjut.
 ```
@@ -156,8 +158,13 @@ Tiap pilar: masalah yang dipecahkan, teknik, cek.
 7. Kamera dan suara. Masalah: kamera statis atau meloncat, suara terdengar palsu. Teknik: kamera mengikuti cerita, zoom in halus ke objek yang disebut lalu keluar, semua gerakan pelan; sudut kreatif dari daftar; SFX rekaman asli di frame kejadian; musik di bawah suara. Cek: setiap objek yang disebut VO mendapat gerakan kamera; setiap kejadian punya SFX dalam 1 frame.
 8. Planning. Setiap scene direncanakan lengkap (Tahap 4) sebelum dibuat.
 
-## SFX dan musik
-- SFX rekaman asli dari sumber berlisensi jelas: Freesound (filter CC0 atau CC-BY dengan atribusi), Pixabay Sound Effects, OpenGameArt. Catat URL dan lisensi di `sfx_sources.md`. Jangan ambil audio dari video orang lain.
+## SFX, musik, dan lisensi
+- Sumber: Freesound dan Pixabay (efek suara dan musik). Jangan ambil audio dari video orang lain.
+- Freesound CC0: boleh, kredit opsional (tetap dicantumkan). CC BY 3.0/4.0: boleh, kredit WAJIB (judul, pembuat, link, lisensi). CC BY-NC dan Sampling+: JANGAN dipakai, karena video yang dimonetisasi, disponsori, atau berisi afiliasi termasuk komersial.
+- Pixabay Content License: boleh komersial, kredit tidak wajib (tetap dicantumkan). Musik Pixabay kadang tetap kena klaim Content ID YouTube: unduh sertifikat lisensi lagunya dan simpan untuk sengketa.
+- Catat setiap file di `sfx_sources.md`: id | file | judul | pembuat | url | sumber | lisensi | tanggal unduh | bukti | frame dipakai. Simpan screenshot halaman atau sertifikat di `audio/licences/`.
+- Buat `CREDITS.txt` untuk deskripsi postingan, satu baris per file yang dipakai: `"Judul" by Pembuat (URL) - Lisensi`, dikelompokkan Sound effects / Music. Jangan render final kalau ada file tanpa lisensi tercatat.
+- Kalau Claude Code tidak bisa mengunduh (perlu login), user mengunduh ke `audio/sfx_raw/` dan menempelkan URL halamannya.
 - Letakkan SFX di frame kejadian visual, biasanya 0-1 frame setelah kontak.
 - Mix: loudness akhir -14 LUFS; musik dan SFX 5-10 dB di bawah suara, musik ducking saat ada suara.
 - Pilih musik setelah video selesai: coba 2-3 lagu di atas render final, pilih yang paling pas.
@@ -167,7 +174,7 @@ Tiap pilar: masalah yang dipecahkan, teknik, cek.
 - Format 1080x1920, 30 fps; final 1440x2560.
 - Kamera: gerakan sekitar 23 f ease-in-out; glide 18-40 f; push-in saat hold 0,15-0,35%/f, 0,6%/f di kata penting; roll 3,6-8 derajat; shake berbalik arah tiap frame sekitar 3 px, hilang dalam 6-8 f; tanpa hand-held.
 - Karakter: tinggi 3,5 HH; wajah luma sekitar 0,93; tinta plum #241726; kedip 3-4 f tiap 0,5-2,3 s dan setiap ganti ekspresi; mulut mendahului suara 0-1 f; langkah 9-12 f; bob 3-7%; condong 1-7 derajat.
-- Lighting: bayangan sunset violet-biru; kepala tetap terang (V minimal 0,86); specular hanya pada logam dan cat.
+- Lighting: bayangan sunset violet-biru; kepala tetap terang (V minimal 0,86); specular kecil pada semua benda mengilap seperti di video (cat mobil, logam, mata gergaji, helm proyek, kaca), tidak pada kayu, tanah, kain, dan wajah.
 
 ## Keluaran per proyek
-`SCRIPT.md`, `words.json`, `SCENES.md`, `PROMPTS.md`, `sfx_sources.md`, lalu video final dan catatan. Akhiri tiap tahap dengan ringkasan 1-2 kalimat dan pertanyaan persetujuan.
+`SCRIPT.md`, `words.json`, `SCENES.md`, `PROMPTS.md`, `sfx_sources.md`, `CREDITS.txt` (siap tempel ke deskripsi), lalu video final dan catatan. Akhiri tiap tahap dengan ringkasan 1-2 kalimat dan pertanyaan persetujuan.
